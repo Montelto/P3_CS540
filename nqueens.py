@@ -34,9 +34,11 @@ def f(state, boulderX, boulderY):
     if state is None:
         return 0
     n = len(state)
+    # attacked_queens: array showing if a queen is being attacked(1) or not(0)
     attacked_queens = [0] * n
     attacks = 0
 
+    # finding queens being attacked horizontally then diagonally
     for i in range(n):
         boulder = False
         for j in range(i + 1, n):
@@ -61,15 +63,20 @@ def f(state, boulderX, boulderY):
 
 
 def choose_next(curr, boulderX, boulderY):
+    """When given the current state, uses succ() to generate the successors and
+    returns the selected next state"""
+
     succ_states = succ(curr, boulderX, boulderY)
     min_f = f(curr, boulderX, boulderY)
     state_dict = {'state': curr, 'f': min_f}
     next_list = [state_dict]
+
     for i in range(len(succ_states)):
         state_dict = {'state': succ_states[i], 'f': f(succ_states[i],
                                                       boulderX, boulderY)}
         next_list.append(state_dict)
     lowest_f_states = [curr]
+
     for i in range(len(next_list)):
         if next_list[i]['f'] < min_f:
             lowest_f_states.clear()
@@ -77,6 +84,7 @@ def choose_next(curr, boulderX, boulderY):
             min_f = next_list[i]['f']
         elif next_list[i]['f'] == min_f:
             lowest_f_states.append(next_list[i]['state'])
+
     lowest_f_states = sorted(lowest_f_states)
     if lowest_f_states[0] == curr:
         return None
@@ -84,9 +92,13 @@ def choose_next(curr, boulderX, boulderY):
 
 
 def nqueens(initial_state, boulderX, boulderY):
+    """Runs the hill-climbing algorithm from a given initial state, returns
+    the convergence state"""
+
     curr_state = initial_state
     state_f = f(curr_state, boulderX, boulderY)
     print(curr_state, "- f =", state_f)
+
     while True:
         next_state = choose_next(curr_state, boulderX, boulderY)
         state_f = f(next_state, boulderX, boulderY)
@@ -98,9 +110,12 @@ def nqueens(initial_state, boulderX, boulderY):
 
 
 def nqueens_restart(n, k, boulderX, boulderY):
+    """Runs the hill-climbing algorithm on an n*n board with random restarts"""
+
     initial_state = [0]*n
     best_solutions = []*k
     state_f = 0
+
     while k > 0:
         for i in range(n):
             initial_state[i] = random.randint(0, n-1)
@@ -112,6 +127,7 @@ def nqueens_restart(n, k, boulderX, boulderY):
                 return 0
             best_solutions.append(state)
             k -= 1
+
     best_solutions = sorted(best_solutions)
     for i in range(len(best_solutions)):
         print(best_solutions[i])
@@ -119,7 +135,7 @@ def nqueens_restart(n, k, boulderX, boulderY):
 
 
 def nqueens_random():
-    """test function for overall project with random n and boulder"""
+    """test function for overall project with random n, k, and boulder"""
 
     n = random.randint(1, 8)
     print(n, "*", n, "board")
