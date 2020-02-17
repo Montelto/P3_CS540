@@ -9,9 +9,13 @@ import random
 
 
 def succ(state, boulderX, boulderY):
+    """When given a state of the board, returns a list of all valid successor
+    states"""
+
     n = len(state)
     valid_states = [[0] * n] * (((n - 1) * n) - 1)
     valid_states.clear()
+
     for i in range(n):
         for j in range(n):
             if (i is boulderX and j is boulderY):
@@ -24,11 +28,15 @@ def succ(state, boulderX, boulderY):
 
 
 def f(state, boulderX, boulderY):
+    """When given a state of the board, returns an integer score such that the
+    goal state scores 0"""
+
     if state is None:
         return 0
     n = len(state)
     attacked_queens = [0] * n
     attacks = 0
+
     for i in range(n):
         boulder = False
         for j in range(i + 1, n):
@@ -45,6 +53,7 @@ def f(state, boulderX, boulderY):
                     and not boulder:
                 attacked_queens[i] = 1
                 attacked_queens[j] = 1
+
     for i in range(n):
         if attacked_queens[i] == 1:
             attacks += 1
@@ -110,6 +119,8 @@ def nqueens_restart(n, k, boulderX, boulderY):
 
 
 def nqueens_random():
+    """test function for overall project with random n and boulder"""
+
     n = random.randint(1, 8)
     print(n, "*", n, "board")
     k = random.randint(100*n, 1000*n)
@@ -118,6 +129,3 @@ def nqueens_random():
     print("with boulder at ", boulderX, ",", boulderY)
     print("and ", k, " possible iterations.")
     print(nqueens_restart(n, k, boulderX, boulderY))
-
-
-nqueens_random()
