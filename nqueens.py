@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
-# Filename: p1_weather.py
-# Project: P1
+# Filename: p3_nqueens.py #TODO
+# Project: P3
 # Author: Joseph McFarland
 # Course: CS540, Spring 2020, LEC 001
 # ------------------------------ 80 COLUMNS WIDE -------------------------------
@@ -18,9 +18,9 @@ def succ(state, boulderX, boulderY):
 
     for i in range(n):
         for j in range(n):
-            if (i is boulderX and j is boulderY):
+            if i is boulderX and j is boulderY:
                 continue
-            elif (j is not state[i]):
+            elif j is not state[i]:
                 state_copy = deepcopy(state)
                 state_copy[i] = j
                 valid_states.append(state_copy)
